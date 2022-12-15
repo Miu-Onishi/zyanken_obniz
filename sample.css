@@ -1,0 +1,292 @@
+header h1 {
+  background: rgb(199, 100, 100);
+}
+/* ヘッダー */
+/* header{
+    text-align: center;
+    background:chartreuse;
+    padding-top: 30px;
+    padding-bottom: 20px;
+} */
+body {
+  min-width: 700px;
+}
+#back {
+  width: auto;
+  height: 100%;
+}
+header {
+  text-align: center;
+  background: rgb(163, 197, 129);
+}
+.menu-item {
+  list-style: none;
+  display: inline-block;
+  padding: 10px;
+}
+
+/* メイン */
+main {
+  text-align: center;
+  padding: 10px;
+  /* overflow: hidden; */
+  background: rgb(243, 184, 143);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 80px;
+  padding-bottom: 30px;
+  max-width: 700px;
+}
+/* メインビジュアル */
+.main_visual {
+  text-align: center;
+}
+/* メインコンテンツ */
+.main_content {
+  position: relative;
+  width: 75%;
+  margin: 0 auto;
+}
+
+.main_content:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+.main_content2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgb(255, 255, 255);
+  /* min-width: 400px; */
+  /* min-height: 400px; */
+}
+
+/* 選択ボタン */
+#btn1,
+#btn2,
+#btn3 {
+  width: 200px;
+  height: 70px;
+  background: #ff7f83;
+  border-radius: 50%;
+  margin: 50px auto;
+  text-align: center;
+  line-height: 70px;
+  font-weight: bold;
+  color: white;
+  font-size: 25px;
+  /* カーソルを合わせると指になる */
+  cursor: pointer;
+  /* 立体的にする、x方向、y方向、ぼかし、色 */
+  box-shadow: 0 7px 0 #d1483e;
+  /* テキストにはクリックが反応しなくなる */
+  user-select: none;
+}
+#btn1:hover,
+#btn2:hover,
+#btn3:hover {
+  opacity: 0.8;
+}
+#btn1 a,
+#btn2 a,
+#btn3 a {
+  text-decoration: none;
+  color: white;
+}
+
+#titledis1 h1 {
+  text-align: center;
+  background: cornsilk;
+  width: 80%;
+  border-radius: 20px;
+  margin: 30px auto;
+  /* padding: 10px; */
+}
+
+#start_btn {
+  width: 150px;
+  height: 100px;
+  background: #ff7f83;
+  border-radius: 100%;
+  margin-top: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  line-height: 100px;
+  font-weight: bold;
+  color: white;
+  font-size: 25px;
+  /* カーソルを合わせると指になる */
+  cursor: pointer;
+  /* 立体的にする、x方向、y方向、ぼかし、色 */
+  box-shadow: 0 7px 0 #d1483e;
+  /* テキストにはクリックが反応しなくなる */
+  user-select: none;
+}
+
+#playdis2 ul {
+  display: table; /* 定義 */
+  table-layout: fixed;
+  width: 80%;
+}
+#playdis2 li {
+  text-align: center;
+  list-style-type: none;
+  border: 1px solid #666;
+  background-color: none;
+  display: table-cell; /* 定義 */
+  cursor: pointer;
+}
+
+#player_hands {
+  text-align: center;
+  margin: auto;
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+}
+
+#pc_hands {
+  text-align: center;
+  margin: auto;
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+}
+img {
+  width: 70px;
+  height: 70px;
+}
+
+#No {
+  width: 40%;
+  padding: none;
+  background-color: rgb(163, 197, 129);
+  border-radius: 10px;
+  margin: 30px auto;
+}
+#win {
+  font-size: 40px;
+  /* margin-bottom: none; */
+  /* margin-top: 100% auto; */
+  align-items: flex-end;
+  line-height: 20px;
+}
+#playdis2 p {
+  margin-bottom: none;
+  align-items: flex-end;
+  margin-top: 70px;
+}
+#aiko_btn,
+#next_btn,
+#make_btn {
+  background: darkorange;
+  width: 15%;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  position: absolute;
+  margin-top: 30px;
+  right: 220px;
+}
+#make,
+#kati,
+#aiko {
+  position: absolute;
+  right: 204px;
+  text-align: center;
+  background: rgb(255, 255, 255);
+  top: 165px;
+}
+#entry_btn {
+  background: rgb(195, 157, 214);
+  width: 15%;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#name {
+  margin: auto;
+  width: 85%;
+  font-size: 80%;
+  background-color: rgb(222, 201, 233);
+  box-shadow: 3px 3px 3px 3px #555;
+}
+
+table {
+  margin: 20px 3%;
+  border: 1px solid #5aa798;
+  width: 96%;
+}
+th {
+  width: 30%;
+  font-size: 18px;
+  background-color: rgb(222, 201, 233);
+  /* border-bottom: 1px solid #678983; */
+}
+td {
+  font-size: 18px;
+  background-color: #e6ddc4;
+  /* border-bottom: 1px solid #678983; */
+}
+#gazou {
+  width: 75%;
+  text-align: center;
+  position: absolute;
+  margin-top: 50px;
+  right: 60px;
+}
+#gazou img {
+  width: 100px;
+  height: 100px;
+}
+
+#playdis1 p {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  border-bottom: 3px dashed #000;
+}
+
+#playdis3 h1 {
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  background: #f7847c;
+  border-radius: 50%;
+}
+
+#win2 {
+  font-size: 30px;
+}
+
+#playdis3 p {
+  position: absolute;
+  right: 220px;
+  top: 65px;
+  font-size: 20px;
+}
+#sentaku {
+  user-select: none;
+}
+
+label {
+  display: block;
+  font: 1rem "Fira Sans", sans-serif;
+  background: none;
+}
+#pc_hands {
+  opacity: 1;
+}
+
+/* #playdis2 #pc_hands,
+#player_hands {
+  opacity: 0;
+} */

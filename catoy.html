@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top" />
+  </head>
+  <body>
+    <!-- HTML Example -->
+    <html>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://obniz.com/js/jquery-3.2.1.min.js"></script>
+        <script src="https://unpkg.com/obniz/obniz.js"></script>
+      </head>
+      <body>
+        <div id="obniz-debug"></div>
+        <h1>Cat toy</h1>
+        <input id="slider" type="range" min="0" max="180" />
+        <div id="score">90</div>
+
+        <script>
+          const obniz = new Obniz("4120-2590"); // M5Atom Lite
+          //let obniz = new Obniz("1643-7282"); // Obniz
+          let alpha, beta;
+          let gamma = 90;
+          let scoreEle = $("#score");
+
+          obniz.onconnect = async function () {
+            /*
+            var servo = obniz.wired("ServoMotor", {
+              signal: 11
+            });
+            */
+
+            let servo = obniz.wired("ServoMotor", {
+              gnd: 9, // comment out for Atom Lite
+              vcc: 10, // comment out for Atom Lite
+              signal: 11
+            });
+
+            obniz.repeat(async function () {
+              servo.angle(gamma);
+              scoreEle.html(gamma);
+            }, 0);
+
+            $("#slider").on("input", function () {
+              servo.angle($("#slider").val());
+            });
+          };
+
+          //the event handler for OrientationEvent
+          window.ondeviceorientation = function (event) {
+            //alpha = event.alpha;
+            //beta = event.beta;
+            gamma = event.gamma * 2 + 90;
+            $("#slider").val(gamma);
+            //scoreEle.html(gamma);
+          };
+
+          request_permission();
+
+          function request_permission() {
+            if (
+              DeviceMotionEvent &&
+              DeviceMotionEvent.requestPermission &&
+              typeof DeviceMotionEvent.requestPermission === "function"
+            ) {
+              DeviceMotionEvent.requestPermission();
+            }
+            if (
+              DeviceOrientationEvent &&
+              DeviceOrientationEvent.requestPermission &&
+              typeof DeviceOrientationEvent.requestPermission === "function"
+            ) {
+              DeviceOrientationEvent.requestPermission();
+            }
+          }
+        </script>
+      </body>
+    </html>
+  </body>
+</html>

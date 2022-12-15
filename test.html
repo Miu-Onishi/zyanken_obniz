@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://obniz.com/js/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/obniz/obniz.js"></script>
+    <link rel="stylesheet" href="sample.css" />
+
+    <title>Static Template</title>
+  </head>
+  <body>
+    <main>
+      <div id="obniz-debug"></div>
+      <section class="main_visual">
+        <div id="titledis1">
+          <h1>じゃんけんゲーム</h1>
+        </div>
+      </section>
+
+      <section class="main_content">
+        <div class="main_content2">
+          <!-- ゲームタイトル画面 -->
+          <div id="playdis1">
+            <!-- <h1>負けたらおしまい!</h1> -->
+            <p>勝ったらライトが光ります</p>
+            <div id="gazou">
+              <img src="gu.PNG" alt="グー" />
+              <img src="cyoki.PNG" alt="チョキ" />
+              <img src="pa.PNG" alt="パー" />
+            </div>
+            <div id="start_btn">スタート</div>
+          </div>
+
+          <!-- ゲームプレイ画面 -->
+          <div id="playdis2">
+            <h1 id="No"></h1>
+            <div id="pc_hands"></div>
+            <h3 id="action">＼じゃんけん／</h3>
+            <div id="player_hands"></div>
+            <ul id="sentaku">
+              <li id="gu_btn">グー</li>
+              <li id="cho_btn">チョキ</li>
+              <li id="par_btn">パー</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      let win;
+
+      //タイトル画面
+      gameTitle();
+      //ゲームプレイ画面
+      $("#start_btn").on("click", function () {
+        gamePlay();
+        $("#playdis1").hide();
+        win = 0;
+      });
+      //ゲーム終了画面
+      $("#make_btn").on("click", function () {
+        $("#playdis2").hide();
+        gameOver();
+      });
+
+      function gameTitle() {
+        $("#playdis1").show();
+        $("#playdis2").hide();
+        $("#playdis3").hide();
+      }
+      function gamePlay() {
+        $("#playdis2").show();
+        $("#playdis3").hide();
+        $("#pc_hands").html('<img src="gu.PNG" alt="グー">');
+        $("#player_hands").html('<img src="gu.PNG" alt="グー">');
+      }
+      function gameOver() {
+        $("#playdis3").show();
+        $("#playdis3").hide().fadeIn("slow");
+      }
+
+      $("#gu_btn, #cho_btn, #par_btn").on("click", function () {
+        $("#action").html("じゃんけん");
+      });
+
+      //じゃんけん
+      //グーの時
+      $("#gu_btn").on("click", function () {
+        $("#player_hands").html('<img src="gu.PNG" alt="グー">');
+        const num = Math.ceil(Math.random() * 3);
+        if (num == 1) {
+          $("#pc_hands").html('<img src="gu.PNG" alt="グー">');
+          $("#action").html("あいこで！");
+        }
+        if (num == 2) {
+          $("#pc_hands").html('<img src="cyoki.PNG" alt="チョキ">');
+          $("#action").html("あなたの勝ち！");
+          win += 1;
+        }
+        if (num == 3) {
+          $("#pc_hands").html('<img src="pa.PNG" alt="パー">');
+          $("#action").html("あなたの負け！");
+          if (win >= 1) {
+            win -= 1;
+          }
+        }
+      });
+
+      //チョキの時
+      $("#cho_btn").on("click", function () {
+        $("#player_hands").html('<img src="cyoki.PNG" alt="チョキ">');
+        const num = Math.ceil(Math.random() * 3);
+        if (num == 1) {
+          $("#pc_hands").html('<img src="gu.PNG" alt="グー">');
+          $("#action").html("あなたの負け！");
+          if (win >= 1) {
+            win -= 1;
+          }
+        }
+        if (num == 2) {
+          $("#pc_hands").html('<img src="cyoki.PNG" alt="チョキ">');
+          $("#action").html("あいこで！");
+        }
+        if (num == 3) {
+          $("#pc_hands").html('<img src="pa.PNG" alt="パー">');
+          $("#action").html("あなたの勝ち！");
+          win += 1;
+        }
+      });
+
+      ///パーの時
+      $("#par_btn").on("click", function () {
+        $("#player_hands").html('<img src="pa.PNG" alt="パー">');
+        const num = Math.ceil(Math.random() * 3);
+        if (num == 1) {
+          $("#pc_hands").html('<img src="gu.PNG" alt="グー">');
+          $("#action").html("あなたの勝ち！");
+          win += 1;
+        }
+        if (num == 2) {
+          $("#pc_hands").html('<img src="cyoki.PNG" alt="チョキ">');
+          $("#action").html("あなたの負け！");
+          if (win >= 1) {
+            win -= 1;
+          }
+        }
+        if (num == 3) {
+          $("#pc_hands").html('<img src="pa.PNG" alt="パー">');
+          $("#action").html("あいこで！"); //$("#aiko").show();
+        }
+      });
+      console.log(win);
+
+      //obniz
+      const obniz = new Obniz("4120-2590"); // your obniz id
+      obniz.onconnect = async function () {
+        // var leds = obniz.wired("WS2812B", { gnd: 0, vcc: 1, din: 2 }); // for obniz boards
+        var leds = obniz.wired("WS2812", { din: 26 }); // for M5 Atom lite
+        obniz.onloop = async function () {
+          console.log(win);
+          if (win <= 0) {
+            leds.rgbs([
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 1) {
+            leds.rgbs([
+              [100, 30, 30],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 2) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 3) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 4) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 5) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [200, 80, 30],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 6) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [200, 80, 30],
+              [150, 130, 30],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 7) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [200, 80, 30],
+              [150, 130, 30],
+              [100, 180, 30],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 8) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [200, 80, 30],
+              [150, 130, 30],
+              [100, 180, 30],
+              [50, 230, 30],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 9) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [200, 80, 30],
+              [150, 130, 30],
+              [100, 180, 30],
+              [50, 230, 30],
+              [50, 180, 80],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 10) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [200, 80, 30],
+              [150, 130, 30],
+              [100, 180, 30],
+              [50, 230, 30],
+              [50, 180, 80],
+              [50, 130, 130],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 11) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [200, 80, 30],
+              [150, 130, 30],
+              [100, 180, 30],
+              [50, 230, 30],
+              [50, 180, 80],
+              [50, 130, 130],
+              [50, 80, 180],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 12) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [200, 80, 30],
+              [150, 130, 30],
+              [100, 180, 30],
+              [50, 230, 30],
+              [50, 180, 80],
+              [50, 130, 130],
+              [50, 80, 180],
+              [50, 50, 230],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 13) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [200, 80, 30],
+              [150, 130, 30],
+              [100, 180, 30],
+              [50, 230, 30],
+              [50, 180, 80],
+              [50, 130, 130],
+              [50, 80, 180],
+              [50, 50, 230],
+              [100, 100, 180],
+              [0, 0, 0],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 14) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [200, 80, 30],
+              [150, 130, 30],
+              [100, 180, 30],
+              [50, 230, 30],
+              [50, 180, 80],
+              [50, 130, 130],
+              [50, 80, 180],
+              [50, 50, 230],
+              [100, 100, 180],
+              [150, 150, 130],
+              [0, 0, 0]
+            ]);
+          }
+          if (win == 15) {
+            leds.rgbs([
+              [100, 30, 30],
+              [150, 30, 30],
+              [200, 30, 30],
+              [250, 30, 30],
+              [200, 80, 30],
+              [150, 130, 30],
+              [100, 180, 30],
+              [50, 230, 30],
+              [50, 180, 80],
+              [50, 130, 130],
+              [50, 80, 180],
+              [50, 50, 230],
+              [100, 100, 180],
+              [150, 150, 130],
+              [200, 200, 80]
+            ]);
+          }
+        };
+      };
+    </script>
+  </body>
+</html>
